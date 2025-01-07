@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'article - {{ article.title }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12 ">
+    <h1 class="text-5xl font-extrabold text-orange-600 mb-8 text-center">Modifier l'article</h1>
+
+    <div class="max-w-lg mx-auto bg-black border border-gray-700 rounded-xl shadow-xl p-6">
+        <form method="POST" action="{{ path('article_edit', {'slug': article.slug}) }}">
+            {{ form_start(form) }}
+            <div class="mb-4">
+                {{ form_label(form.title, 'Titre de l\'article', {'label_attr': {'class': 'text-orange font-bold'}}) }}
+                {{ form_widget(form.title, {'attr': {'class': 'text-black w-full p-3 border border-gray-300 rounded-md'}}) }}
+            </div>
+            <div class="mb-4">
+                {{ form_label(form.content, 'Contenu de l\'article', {'label_attr': {'class': 'text-gray-700 font-bold'}}) }}
+                {{ form_widget(form.content, {'attr': {'class': 'text-black w-full p-3 border border-gray-300 rounded-md'}}) }}
+            </div>
+
+            <!-- Ajouter d'autres champs si nécessaire -->
+
+            <div class="mt-4">
+                <button type="submit" class="px-8 py-3 text-lg font-semibold bg-teal-500 text-white rounded-full shadow-md hover:bg-teal-600">
+                    Enregistrer les modifications
+                </button>
+            </div>
+            {{ form_end(form) }}
+        </form>
+    </div>
+</div>
+{% endblock %}

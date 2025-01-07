@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mentions Légales{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Animation pour l'apparition progressive des éléments */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Application de l'animation fadeIn */
+        .fade-in {
+            animation: fadeIn 2s ease-out;
+        }
+
+        /* Fixer la navbar au-dessus des autres éléments */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000; /* Assurer que la navbar reste au-dessus */
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+  <div class="container mx-auto px-6 py-8">
+    <h1 class="text-2xl font-bold mb-4">Mentions Légales</h1>
+    
+    <h2 class="text-lg font-semibold mt-4">1. Site internet - Application</h2>
+    <p>
+      Le site internet disponible à l'adresse : <strong>www.joffrine.fr</strong> et <strong>www.joffrine.com</strong> (ci-après dénommé le « Site ») et l'application mobile JOFFRINE (ci-après dénommée l'« Application ») sont édités par la société MESNIL BIEN ÊTRE, société par actions simplifiée unipersonnelle au capital de 2.000,00 euros, immatriculée au registre du commerce et des sociétés de Rouen sous le numéro 889 017 620 et dont le siège social se situe 120 route de Paris – 76240 Le Mesnil-Esnard, France (ci-après dénommée « MESNIL BIEN ÊTRE »).
+    </p>
+    <p>
+      N° TVA intracommunautaire : <strong>FR 42 88 90 17 620</strong>.
+    </p>
+
+    <h2 class="text-lg font-semibold mt-4">2. Réseaux sociaux</h2>
+    <p>
+      Les sites ou les réseaux sociaux Facebook, Snapchat, TikTok, Twitter et Instagram de JOFFRINE, @Starloufa et/ou MESNIL BIEN ÊTRE sont également édités par MESNIL BIEN ÊTRE.
+    </p>
+
+    <h2 class="text-lg font-semibold mt-4">3. Contenu et utilisation des informations</h2>
+    <p>
+      La marque « JOFFRINE » est une marque déposée à l'INPI (France) et à l'OMPIC (Maroc).
+    </p>
+    <p>
+      L'ensemble des contenus, pages, scripts, graphismes, photographies et icônes du Site, de l'Application et/ou des réseaux sociaux de JOFFRINE et/ou MESNIL BIEN ÊTRE est la propriété exclusive de MESNIL BIEN ÊTRE ou de tiers ayant autorisé MESNIL BIEN ÊTRE à les utiliser. Tous droits de reproduction ou de représentation de ceux-ci sont strictement réservés.
+    </p>
+    <p>
+      Par conséquent, toute reproduction, représentation, utilisation, adaptation, modification, incorporation, traduction, commercialisation, partielles ou intégrales, du Site, de l'Application et/ou des réseaux sociaux de JOFFRINE et/ou MESNIL BIEN ÊTRE, par quelque procédé et sur quelque support que ce soit (papier, numérique, …) sont interdites, sans l'autorisation écrite préalable de MESNIL BIEN ÊTRE, sous peine de constituer un délit de contrefaçon de droit d'auteur et/ou de dessins et modèles et/ou de marque.
+    </p>
+
+    <h2 class="text-lg font-semibold mt-4">4. Liens hypertextes</h2>
+    <p>
+      À partir du Site ou de l'Application, les utilisateurs pourront avoir accès à différents liens les dirigeant vers des sites tiers.
+    </p>
+    <p>
+      MESNIL BIEN ÊTRE ne sera en aucun cas responsable concernant :
+    </p>
+    <ul class="list-disc ml-8">
+      <li>Le contenu des sites référencés sur le Site, sur l'Application et/ou sur les réseaux sociaux de JOFFRINE et/ou MESNIL BIEN ÊTRE ;</li>
+      <li>Les informations ou contenus fournis par des tiers.</li>
+    </ul>
+    <p>
+      MESNIL BIEN ÊTRE n'exerce aucun contrôle sur les liens hypertextes et/ou autres formats promotionnels. Par conséquent, MESNIL BIEN ÊTRE ne donne aucune garantie concernant notamment la véracité, la qualité, la complétude et l'exhaustivité du contenu des sites internet indexés.
+    </p>
+
+    <h2 class="text-lg font-semibold mt-4">5. Traitement des données à caractère personnel</h2>
+    <p>
+      Lors de la navigation sur le Site ou lors de l'utilisation de l'Application, les utilisateurs sont amenés à communiquer des données personnelles. Les dispositions relatives à cette section sont disponibles dans la <strong>Politique de Confidentialité</strong> du Site.
+    </p>
+    <p>
+      Conformément au Règlement (UE) 2016/679 du Parlement européen et du Conseil du 27 avril 2016 dit le « RGPD » relatif à la protection des personnes physiques à l'égard du traitement des données à caractère personnel, les utilisateurs disposent d'un droit d'accès, de modification, de rectification, de limitation, de portabilité et de suppression des données les concernant.
+    </p>
+    <p>
+      Pour toute demande, les utilisateurs doivent s'adresser à : <strong>joffrinedehais@gmail.com</strong>.
+    </p>
+
+    <h2 class="text-lg font-semibold mt-4">6. Modifications des mentions légales</h2>
+    <p>
+      MESNIL BIEN ÊTRE se réserve le droit de modifier, à tout moment, les présentes mentions légales, afin notamment de prendre en compte toute évolution légale, jurisprudentielle, éditoriale, fonctionnelle et/ou technique.
+    </p>
+    <p>
+      La version qui prévaut est celle qui est accessible en ligne au jour de la consultation du Site ou de l'utilisation de l'Application.
+    </p>
+
+    <h2 class="text-lg font-semibold mt-4">7. Loi applicable</h2>
+    <p>
+      Le Site et l'Application sont régis par le droit français.
+    </p>
+  </div>
+{% endblock %}

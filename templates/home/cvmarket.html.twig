@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Joffrine Dehais - Présentation
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Animation pour l'apparition progressive des éléments */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Application de l'animation fadeIn */
+        .fade-in {
+            animation: fadeIn 2s ease-out;
+        }
+
+        /* Fixer la navbar au-dessus des autres éléments */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000; /* Assurer que la navbar reste au-dessus */
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+	<section
+		class="bg-white text-black font-serif leading-relaxed">
+
+		<!-- Section principale -->
+		<div class="max-w-7xl mx-auto px-6 py-12 mt-24">
+			<div class="text-center mb-10">
+				<h1 class="text-4xl md:text-5xl font-extrabold text-orange-500 mb-4 fade-in">Une passion pour l'innovation, la créativité et l'excellence</h1>
+			</div>
+
+			<!-- Section de présentation -->
+			<div
+				class="grid gap-12 md:grid-cols-2">
+				<!-- Première Section: Présentation de Joffrine -->
+				<div class="space-y-4 fade-in">
+					<p class="text-xl text-gray-800">
+						Née en 1991, Joffrine Dehais a toujours cultivé une passion pour la communication, le marketing, et le développement commercial. Forte d’une formation approfondie, avec notamment un Master en Management Marketing et Commercial de l’ESGCI Paris, elle a complété son expertise par des certifications en marketing digital et en intelligence artificielle.
+					</p>
+					<p class="text-xl text-gray-800">
+						Depuis 2022, elle est Présidente Directrice Générale de
+						<span class="font-semibold text-teal-500">Mesnil Bien Être</span>, une entreprise spécialisée dans le commerce de détail de produits de bien-être, et développe également plusieurs marques, dont
+						<span class="font-semibold text-teal-500">Pochon Vert</span>
+						et
+						<span class="font-semibold text-teal-500">May Dine France</span>.
+					</p>
+					<p class="text-xl text-gray-800">
+						Véritable touche-à-tout, elle excelle dans des domaines variés : direction artistique, communication, logistique, et stratégie commerciale.
+					</p>
+				</div>
+
+				<!-- Deuxième Section: Parcours Professionnel -->
+				<div class="space-y-4 fade-in">
+					<p class="text-xl text-gray-800">
+						Son parcours est jalonné de réalisations marquantes, comme son rôle de Responsable Affiliation pour la plateforme
+						<span class="font-semibold text-teal-500">Kang</span>. Là, elle a piloté une équipe de plus de 350 talents dans des domaines créatifs et techniques, tout en mettant en œuvre des projets événementiels et des stratégies marketing innovantes.
+					</p>
+					<p class="text-xl text-gray-800">
+						Cette expérience lui a permis de développer des compétences solides en gestion d'équipe, en organisation et en communication.
+					</p>
+					<p class="text-xl text-gray-800">
+						Aujourd'hui, Joffrine accompagne ses clients dans leur quête de performance et d'innovation, avec une approche humaine et une créativité sans limite. Exploratrice dans l’âme, elle nourrit ses projets professionnels de ses passions pour l’art, les voyages et les nouvelles technologies.
+					</p>
+				</div>
+			</div>
+
+			<!-- Section Dynamique d'Appel à l'action -->
+			<div class="mt-12 text-center fade-in">
+				<a href="{{ path('app_service') }}" class="px-8 py-3 text-lg font-semibold bg-orange-500 text-white rounded-full shadow-md transition-all hover:bg-orange-600 transform hover:scale-105 hover:shadow-lg">
+					Découvrez plus
+				</a>
+			</div>
+		</div>
+
+	</section>
+
+{% endblock %}

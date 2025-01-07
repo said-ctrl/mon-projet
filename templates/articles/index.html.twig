@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog - Accueil{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12 bg-white-400 text-gray-100">
+    <h1 class="text-5xl font-extrabold text-orange-600 mb-8 text-center">📰 Blog - Nos Articles</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for item in articlesWithImagePaths %}
+            <div class="bg-white-400 border border-gray-700 rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300">
+                {% if item.productImagePath %}
+                    <div class="h-56 bg-cover bg-center rounded-t-xl" style="background-image: url('{{ asset(item.productImagePath) }}');"></div>
+                {% else %}
+                    <div class="h-56 bg-cover bg-center rounded-t-xl bg-gray-600"></div>
+                {% endif %}
+                
+                <div class="p-6">
+                    <h2 class="text-2xl font-semibold text-white mb-4">{{ item.article.title }}</h2>
+                    <a href="{{ path('article_show', {'slug': item.article.slug}) }}" class="text-teal-400 hover:text-teal-500 transition-colors">Lire l'article</a>
+                </div>
+
+                <div class="px-6 pb-6 text-sm text-gray-400 mt-4">
+                    Par {{ item.article.author.nom }} - {{ item.article.createdAt|date('d/m/Y') }}
+                </div>
+
+                <!-- Ajouter les boutons de modification et suppression -->
+                {% if is_granted('ROLE_ARTIST') and item.article.author == app.user or is_granted('ROLE_ADMIN') %}
+                    <div class="flex justify-between px-6 pb-6 mt-4">
+                        <!-- Bouton de modification -->
+                        <a href="{{ path('article_edit', {'slug': item.article.slug}) }}" class="text-teal-400 hover:text-teal-500 transition-colors">
+                            Modifier
+                        </a>
+
+                        <!-- Bouton de suppression -->
+                        <form method="POST" action="{{ path('article_delete', {'slug': item.article.slug}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?');">
+                            <button type="submit" class="text-red-500 hover:text-red-600 transition-colors">
+                                Supprimer
+                            </button>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="col-span-full text-center text-gray-500 mt-6">Aucun article pour le moment.</div>
+        {% endfor %}
+
+        {% if is_granted('ROLE_ARTIST') %}
+            <div class="mt-10 text-center">
+                <a href="{{ path('article_new') }}" class="inline-block px-8 py-3 text-lg font-semibold bg-teal-500 text-white rounded-full shadow-md transition-all hover:bg-teal-600 hover:shadow-xl">
+                    Ajouter un article
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
+
+
+
+

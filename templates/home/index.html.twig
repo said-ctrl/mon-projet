@@ -1,0 +1,267 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block content %}
+	<!-- Section Art et Expositions -->
+
+	<div class="relative bg-black min-h-screen flex justify-center items-center px-4">
+		<section class="relative bg-cover bg-center h-[80vh] w-[90%] rounded-lg shadow-lg transform transition duration-300 hover:scale-105" style="background-image: url({{ asset('/images/leo2modif.PNG') }})">
+			<div
+				class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-center px-6 py-8 md:px-8 md:py-12">
+				<!-- Titre principal -->
+				<h1 class="text-4xl font-bold text-white text-center mb-4 sm:text-3xl sm:mb-2">Art et Expositions</h1>
+				<p class="text-lg text-white text-center mb-4 sm:text-base">Découvrez mes créations artistiques uniques...</p>
+
+				<!-- Bouton au-dessus du logo -->
+				<div class="flex justify-center mb-4">
+					<a href="{{ path('cvart') }}" class="w-32 bg-yellow-500 text-white text-sm text-center py-2 px-4 rounded-lg hover:bg-orange-600 transition duration-300">Parcours</a>
+				</div>
+
+				<!-- Logo centré -->
+				<div class="flex justify-center mb-6">
+					<img src="{{ asset('/images/imagelogocolor.png') }}" alt="Logo Artistique" class="h-20 w-auto object-contain logo-style">
+				</div>
+
+				<!-- Deux autres boutons sous le logo -->
+				<div class="flex justify-center space-x-4">
+					<a href="{{ path('product_list') }}" class="w-32 bg-orange-500 text-white text-sm text-center py-2 px-4 rounded-lg hover:bg-orange-600 transition duration-300">Commander</a>
+					<a href="{{ path('article_index') }}" class="w-32 bg-orange-500 text-white text-sm text-center py-2 px-4 rounded-lg hover:bg-orange-600 transition duration-300">Blogs/Articles</a>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- Section Marketing & Consulting -->
+	<div class="relative bg-black min-h-screen flex justify-center items-center px-4">
+		<section class="relative bg-cover bg-center h-[80vh] w-[90%] rounded-lg shadow-lg transform transition duration-300 hover:scale-105" style="background-image: url({{ asset('/images/zebre230.jpg') }}); filter: grayscale(100%);">
+			<div class="absolute top-4 left-1/2 transform -translate-x-1/2 z-50"></div>
+
+			<div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-center px-6 py-8 md:px-8 md:py-12">
+				<h1 class="text-4xl font-bold text-yellow-400 text-center mb-4 sm:text-3xl sm:mb-2">Marketing & Consulting</h1>
+				<p class="text-lg text-white text-center mb-4 sm:text-base">Explorez mes projets professionnels en marketing et stratégie.</p>
+				<div class="flex justify-center mb-4">
+					<a href="{{ path('cvmarket') }}" class="w-32 bg-yellow-600 text-white text-sm text-center py-2 px-4 rounded-lg hover:bg-orange-600 transition duration-300">Parcours</a>
+				</div>
+				<div class="flex justify-center mb-4">
+					<img src="{{ asset('/images/imagelogonb.png') }}" alt="Logo Marketing" class="h-20 w-auto object-contain logo-style">
+				</div>
+
+				<div class="flex justify-center space-x-4">
+					<a href="https://www.maydinefrance.fr" class="w-32 bg-yellow-600 text-white text-sm text-center py-2 px-4 rounded-lg hover:bg-yellow-500 transition duration-300">MaydineFrance</a>
+					<a href="https://www.soustraitesmoi.fr" class="w-32 bg-yellow-600 text-white text-sm text-center py-2 px-4 rounded-lg hover:bg-yellow-500 transition duration-300">soustraitesMoi</a>
+					<a href="https://www.pochonvert.fr" class="w-32 bg-yellow-600 text-white text-sm text-center py-2 px-4 rounded-lg hover:bg-yellow-500 transition duration-300">PochonVert</a>
+				</div>
+			</div>
+
+		</section>
+	</div>
+	<section class="relative w-full mt-8 mb-8 flex justify-center">
+		<div class="w-full max-w-4xl overflow-hidden relative">
+			<div id="carousel" class="flex transition-transform duration-1000 ease-in-out">
+				{% for product in random_products %}
+					<div
+						class="w-full flex-shrink-0 relative bg-cover bg-center h-[400px]" style="background-image: url('{{ asset(product.image | replace({'uploads/uploads/' : 'uploads/'})) }}');">
+						<!-- Effet superposition avec le titre -->
+						<div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
+							<h2 class="text-white text-4xl md:text-5xl font-bold text-shadow-lg">{{ product.title }}</h2>
+						</div>
+
+						{# Vérification si le produit a un slug non vide avant de créer le lien #}
+						{% if product.slug is not empty %}
+							<a href="{{ path('product_details', {'slug': product.slug}) }}" class="absolute inset-0"></a>
+						{% else %}
+							{# Vous pouvez gérer ce cas autrement, par exemple, en ajoutant une classe "disabled" ou en ne mettant pas de lien du tout. #}
+							<div class="absolute inset-0 cursor-not-allowed"></div>
+						{% endif %}
+					</div>
+				{% else %}
+					<p class="text-center text-gray-500">Aucune image disponible.</p>
+				{% endfor %}
+			</div>
+
+			<!-- Boutons avec couleurs orange -->
+			<div id="prev" class="absolute top-1/2 left-6 transform -translate-y-1/2 px-4 py-2 bg-orange-500 text-white rounded-lg shadow-lg hover:bg-orange-600 cursor-pointer transition">‹</div>
+			<div id="next" class="absolute top-1/2 right-6 transform -translate-y-1/2 px-4 py-2 bg-orange-500 text-white rounded-lg shadow-lg hover:bg-orange-600 cursor-pointer transition">›</div>
+		</div>
+	</section>
+	<!-- Section Slider -->
+	<style>
+		/* Pour améliorer la lisibilité du texte avec une ombre */
+		h2.text-shadow-lg {
+			text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+		}
+
+		/* Ajustement pour s'assurer que le fond couvre correctement */
+		.bg-cover {
+			background-size: cover !important;
+			background-repeat: no-repeat;
+			background-position: center;
+		}
+
+		/* Style des boutons navigation */
+		#prev,
+		#next {
+			z-index: 20;
+			transition: all 0.3s ease;
+		}
+		.logo-style {
+    background-color: rgba(255, 255, 255, 0.7); /* Fond blanc mais légèrement transparent */
+    border: 5px solid rgba(0, 0, 0, 0.2); /* Bordure opaque, ajustez la couleur et la transparence selon vos besoins */
+    padding: 10px; /* Optionnel : ajoute un peu d'espace autour du logo pour mieux voir la bordure */
+    border-radius: 8px; /* Optionnel : arrondir les coins du cadre */
+}
+
+	</style>
+
+
+	<!-- Section des avis clients -->
+	<div class="container my-12 bg-black shadow-md rounded-lg p-6">
+		<h2 class="text-2xl font-bold text-white mb-6 text-center">🗣️ Avis de nos Clients</h2>
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+			{% for avis in avis_clients|slice(0, 3) %}
+				<div class="bg-gray-900 shadow-lg rounded-lg p-6 hover:scale-105 hover:shadow-2xl transition-transform duration-200">
+					<div class="flex items-center justify-center mb-4">
+						{% if avis.product %}
+							<img src="{{ asset(avis.product.imagePath) }}" alt="{{ avis.product.nom }}" class="w-16 h-16 object-cover rounded-full border-2 border-orange-500">
+						{% endif %}
+					</div>
+					<div class="text-center mb-3">
+						<h3 class="text-lg font-semibold text-orange-400">{{ avis.nom }}</h3>
+						<p class="text-sm text-gray-300 italic mt-1">{{ avis.message }}</p>
+					</div>
+					<div class="text-center mt-2">
+						<p class="text-sm text-gray-400">Type d'avis :
+							<span class="font-semibold text-orange-500">{{ avis.type }}</span>
+						</p>
+					</div>
+					<p class="text-sm text-gray-300 italic mt-1">{{ avis.datetime|date('Y-m-d H:i') }}</p>
+
+				</div>
+			{% else %}
+				<div class="col-span-full text-gray-400 text-center mt-4">Aucun avis pour le moment.</div>
+			{% endfor %}
+		</div>
+	</div>
+	<!-- Formulaire d'ajout d'avis uniquement si l'utilisateur est connecté -->
+	{% if is_logged_in %}
+    <div class="container my-8 bg-gray-800 shadow-md rounded-lg p-6 text-black max-w-md mx-auto">
+        <h2 class="text-2xl font-bold text-orange-500 mb-4 text-center">Laissez-nous votre avis</h2>
+        
+        <!-- Bouton pour afficher le formulaire -->
+        <button id="showFormBtn" class="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 w-full">
+            Laisser un avis
+        </button>
+
+        <!-- Formulaire d'ajout d'avis masqué par défaut -->
+        <div id="reviewForm" class="mt-6 hidden">
+            <form action="{{ path('submit_avis') }}" method="POST" class="space-y-4">
+                {% if app.user %}
+                    <input type="hidden" name="email" value="{{ app.user.email }}">
+                {% else %}
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Votre Email</label>
+                        <input type="email" id="email" name="email" class="mt-1 px-4 py-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    </div>
+                {% endif %}
+
+                <div>
+                    <label for="nom" class="block text-sm font-medium text-gray-700">Votre Nom</label>
+                    <input type="text" id="nom" name="nom" class="mt-1 px-4 py-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-orange-500">
+                </div>
+                <div>
+                    <label for="message" class="block text-sm font-medium text-gray-700">Votre Message</label>
+                    <textarea id="message" name="message" rows="3" class="mt-1 px-4 py-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-orange-500"></textarea>
+                </div>
+                <div>
+                    <label for="type" class="block text-sm font-medium text-gray-700">Type d'Avis</label>
+                    <select id="type" name="type" class="mt-1 px-4 py-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        <option value="positif">Positif</option>
+                        <option value="négatif">Négatif</option>
+                        <option value="neutre">Neutre</option>
+                    </select>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500">Soumettre</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% else %}
+    <div class="container my-8 bg-gray-50 shadow-md rounded-lg p-6 text-center max-w-md mx-auto">
+        <p class="text-gray-700 mb-4">Vous devez être connecté pour laisser un avis.</p>
+        <a href="{{ path('app_login') }}" class="text-orange-500 hover:underline">Connectez-vous</a>
+    </div>
+{% endif %}
+
+	<!-- Statistiques -->
+	<section class="text-white py-12">
+		<div class="container mx-auto text-center">
+			<h2 class="text-3xl font-extrabold text-white mb-4">Nos Statistiques</h2>
+			<p class="text-5xl font-extrabold text-white">5,000+</p>
+			<p class="text-lg text-gray-300">Clients satisfaits à travers le monde</p>
+		</div>
+	</section>
+
+
+	<!-- Contact ou Appel à l'action -->
+	<section class=" text-white py-12">
+		<div class="container mx-auto text-center">
+			<h2 class="text-4xl font-extrabold text-white mb-4">Contactez-moi</h2>
+			<p class="text-lg text-gray-300 mb-8">Pour toute demande de renseignements ou de collaboration, n'hésitez pas à me contacter.</p>
+			<a href="{{ path('app_service') }}" class="px-8 py-3 text-lg font-semibold bg-orange-500 text-white rounded-full shadow-md transition-all hover:bg-orange-600 transform hover:scale-105 hover:shadow-lg">Me contacter</a>
+		</div>
+	</section>
+
+	<script>
+		const carousel = document.getElementById('carousel');
+const prevButton = document.getElementById('prev');
+const nextButton = document.getElementById('next');
+const slides = document.querySelectorAll('#carousel > div');
+const totalSlides = slides.length;
+let index = 0;
+
+// Fonction pour mettre à jour le carrousel
+function showSlide() {
+const slideWidth = slides[0].clientWidth;
+carousel.style.transform = `translateX(-${
+index * slideWidth
+}px)`;
+}
+
+// Fonction pour aller au slide suivant
+function goToNextSlide() {
+index = (index + 1) % totalSlides;
+showSlide();
+}
+
+// Fonction pour aller au slide précédent
+function goToPrevSlide() {
+index = (index - 1 + totalSlides) % totalSlides;
+showSlide();
+}
+
+// Ajout d'événements aux boutons
+nextButton.addEventListener('click', goToNextSlide);
+prevButton.addEventListener('click', goToPrevSlide);
+
+// Défilement automatique toutes les 5 secondes
+let autoSlide = setInterval(goToNextSlide, 3500);
+
+// Arrêter le défilement automatique sur survol
+const carouselContainer = document.getElementById('carousel');
+carouselContainer.addEventListener('mouseover', () => clearInterval(autoSlide));
+carouselContainer.addEventListener('mouseout', () => {
+autoSlide = setInterval(goToNextSlide, 3500);
+});
+
+// Afficher le premier slide
+showSlide();
+document.getElementById('showFormBtn').addEventListener('click', function() {
+        var form = document.getElementById('reviewForm');
+        form.classList.toggle('hidden'); // Toggle l'affichage du formulaire
+    });
+	</script>
+
+{% endblock %}

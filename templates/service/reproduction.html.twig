@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demande de Reproduction{% endblock %}
+
+{% block content %}
+    <div class="container mx-auto p-6 mt-12 max-w-lg text-white">
+        <h1 class="text-3xl font-bold text-orange-500 mb-6 text-center">Demande de Reproduction</h1>
+
+        {% if form is not empty %}
+            <div class="alert alert-info mb-6 p-4 bg-blue-100 text-blue-800 rounded-md">
+                Remplissez le formulaire ci-dessous pour faire une demande de reproduction.
+            </div>
+
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {{ form_start(form) }}
+
+                <!-- Champ 'nom' -->
+                <div class="form-group">
+                    {{ form_row(form.nom, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border rounded-lg bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500'}}) }}
+                </div>
+                 
+                <!-- Champ 'email' -->
+                <div class="form-group">
+                    {{ form_row(form.email, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border rounded-lg bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500'}}) }}
+                </div>
+
+                <!-- Champ 'type' (choix entre toile, t-shirt, mug) -->
+                <div class="form-group">
+                    {{ form_row(form.type, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border rounded-lg bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500'}}) }}
+                </div>
+
+                <!-- Champ 'quantité' -->
+                <div class="form-group">
+                    {{ form_row(form.quantite, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border rounded-lg bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500'}}) }}
+                </div>
+                   <div class="form-group">
+                    {{ form_row(form.product, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border rounded-lg bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500'}}) }}
+                </div>
+
+                <!-- Bouton de soumission -->
+                <div class="form-group">
+                    <button type="submit" class="w-full py-3 bg-orange-500 text-white rounded-lg font-semibold text-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50">
+                        Soumettre la demande
+                    </button>
+                </div>
+
+                {{ form_end(form) }}
+            </form>
+        {% else %}
+            <p>Aucun formulaire à afficher</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Soumettre un avis{% endblock %}
+
+{% block content %}
+<div class="container my-8">
+    <h1 class="text-3xl font-bold text-orange-500 mb-4">Laissez votre avis</h1>
+ {{ form_start(form) }}
+       {{ form_row(form.nom, {'attr': {'class': 'border rounded px-3 py-2 text-black'}}) }}
+{{ form_row(form.email, {'attr': {'class': 'border rounded px-3 py-2 text-black'}}) }}
+{{ form_row(form.message, {'attr': {'class': 'border rounded px-3 py-2 text-black'}}) }}
+{{ form_row(form.type, {'attr': {'class': 'border rounded px-3 py-2 text-black'}}) }}
+
+        <button class="px-6 py-2 bg-orange-500 text-white rounded hover:bg-orange-600" type="submit">Envoyer</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

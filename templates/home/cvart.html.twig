@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Joffrine Dehais - Artiste Plasticienne{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Animation pour l'apparition progressive des éléments */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Application de l'animation fadeIn */
+        .fade-in {
+            animation: fadeIn 2s ease-out;
+        }
+
+        /* Fixer la navbar au-dessus des autres éléments */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000; /* Assurer que la navbar reste au-dessus */
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <section class="bg-white text-black font-serif leading-relaxed">
+    <!-- Section principale -->
+    <div class="max-w-7xl mx-auto px-6 py-12 mt-24">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-orange-500 mb-4 fade-in">Artiste plasticienne et créatrice d'univers uniques mêlant art contemporain, sensibilité et innovation.</h1>
+        </div>
+
+        <!-- Section de présentation -->
+        <div class="grid gap-12 md:grid-cols-2">
+            <div class="space-y-4 fade-in">
+                <p class="text-xl text-gray-800">
+                    Artiste plasticienne spécialisée dans l'utilisation des POSCA et du Chanvre, Joffrine Dehais développe un univers créatif singulier, mêlant sensibilité contemporaine et techniques variées. Sa démarche artistique s’exprime à travers des toiles, des bustes, et des œuvres uniques, empreintes d’émotion et de réflexion.
+                </p>
+                <p class="text-xl text-gray-800">
+                    En parallèle de sa pratique artistique, Joffrine puise son inspiration dans ses voyages à travers l’Europe, le Maroc, le Canada, et bien d’autres horizons. Ces expériences nourrissent son art et son esprit innovant.
+                </p>
+            </div>
+
+            <!-- Liste des réalisations marquantes -->
+            <div class="space-y-4 fade-in">
+                <h2 class="text-2xl text-orange-500 font-semibold">Réalisations Marquantes</h2>
+                <ul class="space-y-4">
+                    <li class="text-xl text-gray-800">
+                        <strong>2023 :</strong> Création de <span class="font-semibold text-orange-500">The Holy Leaf - 7G</span>, une œuvre réalisée avec de l’huile de chanvre et de la farine de chanvre, symbolisant un dialogue entre nature, innovation et art contemporain.
+                    </li>
+                    <li class="text-xl text-gray-800">
+                        <strong>2022 :</strong> <span class="font-semibold text-orange-500">May Dine France</span>, un projet artistique et entrepreneurial au Maroc pour promouvoir l'importation de produits français.
+                    </li>
+                    <li class="text-xl text-gray-800">
+                        <strong>2021 :</strong> Participation au Salon International Arbustes à Mantes-la-Jolie, avec l'œuvre <span class="font-semibold text-orange-500">ARTLU</span> récompensée par le Prix RÉVÉLATION.
+                    </li>
+                    <li class="text-xl text-gray-800">
+                        <strong>2020-2021 :</strong> Exposition à la Galerie L’Escale de Levallois-Perret, avec des œuvres comme <span class="font-semibold text-orange-500">MEMORIES OF US</span> et <span class="font-semibold text-orange-500">37 COEURS – LA MEDUSA</span>.
+                    </li>
+                    <li class="text-xl text-gray-800">
+                        <strong>2018 :</strong> Exposition solo <span class="font-semibold text-orange-500">Ouverture</span> à la Station E de Montreuil.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section Académique et Professionnelle -->
+        <div class="mt-12 fade-in">
+            <h2 class="text-2xl text-orange-500 font-semibold mb-4">Parcours Académique et Professionnel</h2>
+            <p class="text-xl text-gray-800">
+                Diplômée d’un Master en Marketing et Stratégie Commerciale, Joffrine combine son expertise en communication et design avec sa pratique artistique. Elle maîtrise des outils comme Photoshop, Illustrator, et InDesign pour créer des œuvres numériques et graphiques de haute qualité.
+            </p>
+        </div>
+
+        <!-- Section de contact ou appel à l'action -->
+        <div class="mt-12 text-center fade-in">
+            <a href="{{ path('product_list') }}" class="px-8 py-3 text-lg font-semibold bg-orange-500 text-white rounded-full shadow-md transition-all hover:bg-orange-600 transform hover:scale-105 hover:shadow-lg">
+        Découvrez ses œuvres
+    </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        window.onload = function() {
+            const fadeInElements = document.querySelectorAll('.fade-in');
+            fadeInElements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.classList.add('fade-in');
+                }, index * 300); // Chaque élément apparaît avec un léger délai
+            });
+        };
+    </script>
+{% endblock %}
+
+
+
+
+

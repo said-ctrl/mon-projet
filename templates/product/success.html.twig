@@ -1,0 +1,12 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit ajouté avec succès{% endblock %}
+
+{% block content %}
+<div class="text-black">
+    <h1>Produit ajouté avec succès !</h1>
+    <p>Le produit a été ajouté à la base de données avec succès.</p>
+    <a href="{{ path('add_product') }}">Ajouter un autre produit</a>
+    </div>
+{% endblock %}

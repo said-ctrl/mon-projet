@@ -1,17 +1,279 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<html lang="fr">
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<title>
+			{% block title %}Joffrine Dehais
+			{% endblock %}
+		</title>
+
+		<!-- Importation de TailwindCSS -->
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+		{% block stylesheets %}
+			<style>
+				/* Effets sur les icônes avec texte sur survol */
+				.menu-item {
+					position: relative;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					height: 48px;
+					width: 48px;
+					cursor: pointer;
+					transition: transform 0.2s ease-in-out;
+				}
+
+				.menu-item span {
+					position: absolute;
+					left: 50%;
+					bottom: -30px;
+					background-color: black;
+					padding: 5px 10px;
+					color: white;
+					border-radius: 4px;
+					transform: translateX(-50%) scale(0);
+					transition: transform 0.3s ease-in-out;
+				}
+
+				.menu-item:hover span {
+					transform: translateX(-50%) scale(1);
+				}
+
+				/* Effets de la recherche */
+				.search-container {
+					position: relative;
+					display: flex;
+					align-items: center;
+				}
+
+				/* Champ de recherche avec icône qui reste actif */
+				.search-input {
+					position: absolute;
+					left: -260px;
+					width: 250px;
+					height: 36px;
+					padding-left: 10px;
+					background-color: white;
+					border: 1px solid black;
+					border-radius: 4px;
+					color: black;
+					transition: left 0.3s ease;
+					opacity: 0;
+					pointer-events: none;
+				}
+
+				/* Icône alignée à droite dans la barre de recherche */
+				.search-btn {
+					position: absolute;
+					right: 0;
+					background-color: black;
+					color: white;
+					width: 36px;
+					height: 36px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					cursor: pointer;
+					transition: color 0.3s ease;
+				}
+
+				/* Survol pour rendre visible l'input */
+				.search-container:hover .search-input {
+					left: 0;
+					opacity: 1;
+					pointer-events: auto;
+				}
+
+				.search-container:hover .search-btn {
+					color: orange;
+				}
+
+
+				@media(max-width: 768px) {
+					.desktop-menu {
+						display: none;
+					}
+				}
+			</style>
+		{% endblock %}
+	</head>
+
+	<body
+		class="bg-black text-white font-serif leading-relaxed {% if app.request.attributes.get('route') == 'cvart' %}page-cvart{% endif %}">
+
+		<!-- Navbar -->
+		<nav class="bg-black fixed top-0 w-full z-10 shadow-lg py-4">
+			<div
+				class="container mx-auto flex justify-between items-center px-6 h-16">
+
+				<!-- Logo -->
+				<a href="{{ path('entry') }}" class="flex items-center space-x-2 h-full">
+					<img src="{{ asset('/images/imagelogocolor.png') }}" alt="Logo" class="h-10 md:h-12 grayscale hover:grayscale-0 hover:brightness-110 transition duration-200">
+				</a>
+
+				<!-- Barre de recherche avec icône -->
+				<div class="search-container relative w-full max-w-4xl mx-auto px-4">
+					<form
+						action="{{ path('product_search') }}" method="GET" class="relative flex items-center w-full">
+						<!-- Input de recherche dynamique -->
+						<input
+						type="text" name="query" id="search-input" placeholder="Rechercher..." class="search-input w-full py-2 px-4 rounded-l-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+						<!-- Icône cliquable toujours présente -->
+						<button type="submit" class="search-btn px-4 py-2  text-white rounded-r-md  focus:outline-none">
+							<i class="fas fa-search fa-lg"></i>
+						</button>
+					</form>
+				</div>
+
+
+				<!-- Menu Burger pour mobile -->
+				<div class="mobile-menu cursor-pointer lg:hidden" onclick="toggleMobileMenu()">
+					<i class="fas fa-bars fa-2x hover:text-orange-500"></i>
+				</div>
+
+				<!-- Menu principal -->
+				<div class="desktop-menu hidden lg:flex space-x-6 items-center">
+					<a href="{{ path('home') }}" class="menu-item hover:text-orange-500">
+						<i class="fas fa-home fa-lg"></i>
+						<span>Accueil</span>
+					</a>
+
+					<a href="{{ path('app_cart') }}" class="menu-item hover:text-orange-500">
+						<i class="fas fa-shopping-cart fa-lg"></i>
+						<span>Panier</span>
+					</a>
+
+					<a href="{{ path('app_service') }}" class="menu-item hover:text-orange-500">
+						<i class="fas fa-globe fa-lg"></i>
+						<span>Nos Services</span>
+					</a>
+
+					<a href="{{ path('product_list') }}" class="menu-item hover:text-orange-500">
+						<i class="fas fa-box-open fa-lg"></i>
+						<span>Produits</span>
+					</a>
+
+					{% if app.user %}
+						<div class="text-teal-200">
+							<a href="{{ path('app_profile') }}" class="menu-item hover:text-orange-500">
+								Bonjour,
+								{{ app.user.nom }}</a>
+							<!-- Affiche le nom de l'utilisateur connecté -->
+						</div>
+
+						{% if 'ROLE_ADMIN' in app.user.roles %}
+							<a href="{{ path('admin') }}" class="menu-item hover:text-orange-500">
+								<i class="fas fa-cogs fa-lg"></i>
+								<span>Administration</span>
+							</a>
+						{% endif %}
+						<a href="{{ path('app_logout') }}" class="menu-item hover:text-orange-500">
+							<i class="fas fa-sign-out-alt fa-lg"></i>
+							<span>Déconnexion</span>
+						</a>
+					{% else %}
+						<a href="{{ path('app_login') }}" class="menu-item hover:text-orange-500">
+							<i class="fas fa-sign-in-alt fa-lg"></i>
+							<span>Connexion</span>
+						</a>
+						<a href="{{ path('app_registration') }}" class="menu-item hover:text-orange-500">
+							<i class="fas fa-user-plus fa-lg"></i>
+							<span>Inscription</span>
+						</a>
+					{% endif %}
+				</div>
+			</nav>
+			<!-- Menu Mobile Dynamique -->
+			<div id="mobileMenu" class="bg-black text-white fixed top-0 left-0 w-3/4 h-screen transform -translate-x-full transition-transform duration-300 z-20">
+				<div class="mt-20 px-4 space-y-6">
+					<a href="{{ path('home') }}" class="block hover:text-orange-500">Accueil</a>
+					<a href="{{ path('app_cart') }}" class="block hover:text-orange-500">Panier</a>
+					<a href="{{ path('app_service') }}" class="block hover:text-orange-500">Nos Services</a>
+					<a href="{{ path('product_list') }}" class="block hover:text-orange-500">Produits</a>
+					{% if app.user %}
+						{% if 'ROLE_ADMIN' in app.user.roles %}
+							<a href="{{ path('admin') }}" class="menu-item hover:text-orange-500">admin</a>
+						{% endif %}
+
+						<a href="{{ path('app_profile') }}" class="block hover:text-orange-500">Mon Compte</a>
+						<a href="{{ path('app_logout') }}" class="block hover:text-orange-500">Déconnexion</a>
+					{% else %}
+						<a href="{{ path('app_login') }}" class="block hover:text-orange-500">Connexion</a>
+						<a href="{{ path('app_registration') }}" class="block hover:text-orange-500">Inscription</a>
+
+					{% endif %}
+				</div>
+			</div>
+
+			<!-- Contenu dynamique -->
+			<div class="container mx-auto mt-24">
+				{% block content %}
+					{% for label, messages in app.flashes %}
+						<div class="alert alert-{{ label }}">
+							{{ messages|join(', ') }}
+						</div>
+					{% endfor %}
+
+				{% endblock %}
+			</div>
+
+			<!-- Footer -->
+			<footer class="bg-black text-gray-400 py-8 border-t border-gray-600">
+				<div
+					class="container mx-auto px-6 max-w-4xl">
+					<!-- Section principale avec le nom/prénom -->
+					<div class="text-center mb-6">
+						<div class="inline-block border p-3 rounded-lg bg-gray-800 hover:bg-gray-700 transition duration-300">
+							<p class="text-lg font-semibold">Dehais Joffrine 1991</p>
+						</div>
+					</div>
+
+					<!-- Liens horizontaux -->
+					<div class="flex justify-center space-x-8 mb-4 flex-wrap">
+						<a href="{{ path('cgu') }}" class="hover:text-orange-400 transition duration-300 text-sm">Mentions Légales</a>
+						<a href="{{ path('cgv') }}" class="hover:text-orange-400 transition duration-300 text-sm">Politique de confidentialité</a>
+						<a href="{{ path('a_propos') }}" class="hover:text-orange-400 transition duration-300 text-sm">À propos</a>
+					</div>
+
+					<!-- Icônes réseaux sociaux -->
+					<div class="flex justify-center space-x-6 mb-4">
+						<a href="https://www.linkedin.com" target="_blank" class="hover:text-orange-400 transition duration-300 text-xl">
+							<i class="fab fa-linkedin"></i>
+						</a>
+						<a href="https://www.instagram.com" target="_blank" class="hover:text-orange-400 transition duration-300 text-xl">
+							<i class="fab fa-instagram"></i>
+						</a>
+						<a href="mailto:joffrine@example.com" class="hover:text-orange-400 transition duration-300 text-xl">
+							<i class="fas fa-envelope"></i>
+						</a>
+					</div>
+
+					<!-- Texte de copyright -->
+					<div class="text-sm text-gray-500 text-center mt-4">
+						&copy; 2024. Tous droits réservés.
+					</div>
+				</div>
+			</footer>
+
+
+			<script>
+				const inputField = document.getElementById('search-input');
+const searchBtn = document.querySelector('.search-btn');
+
+inputField.addEventListener('input', () => {
+searchBtn.style.display = inputField.value.length > 0 ? 'block' : 'none';
+});
+function toggleMobileMenu() {
+const mobileMenu = document.getElementById('mobileMenu');
+if (mobileMenu.classList.contains('-translate-x-full')) {
+mobileMenu.classList.remove('-translate-x-full');
+} else {
+mobileMenu.classList.add('-translate-x-full');
+}
+}
+			</script>
+		</body>
+	</body>
 </html>

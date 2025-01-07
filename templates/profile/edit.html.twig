@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mon profil{% endblock %}
+
+{% block content %}
+	<div class="container mt-10 max-w-4xl mx-auto p-8 bg-gradient-to-r from-indigo-700 via-purple-600 to-pink-600 text-white rounded-xl shadow-xl">
+		<h1 class="text-4xl font-bold text-center mb-6 text-white">Modifier mon Profil</h1>
+
+		{{ form_start(form) }}
+		<div class="space-y-6">
+			<!-- Nom -->
+			<div class="flex flex-col">
+				{{ form_label(form.nom, null, {'attr': {'class': 'text-lg font-semibold text-indigo-100'}}) }}
+				{{ form_widget(form.nom, {'attr': {'class': 'p-3 rounded-lg border-2 border-indigo-500 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-300 transition duration-200'}}) }}
+				{{ form_errors(form.nom) }}
+			</div>
+
+			<!-- Prénom -->
+			<div class="flex flex-col">
+				{{ form_label(form.prenom, null, {'attr': {'class': 'text-lg font-semibold text-indigo-100'}}) }}
+				{{ form_widget(form.prenom, {'attr': {'class': 'p-3 rounded-lg border-2 border-indigo-500 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-300 transition duration-200'}}) }}
+				{{ form_errors(form.prenom) }}
+			</div>
+
+			<!-- Adresse -->
+			<div class="flex flex-col">
+				{{ form_label(form.adresse, null, {'attr': {'class': 'text-lg font-semibold text-indigo-100'}}) }}
+				{{ form_widget(form.adresse, {'attr': {'class': 'p-3 rounded-lg border-2 border-indigo-500 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-300 transition duration-200'}}) }}
+				{{ form_errors(form.adresse) }}
+			</div>
+
+			<!-- Code postal -->
+			<div class="flex flex-col">
+				{{ form_label(form.codepostal, null, {'attr': {'class': 'text-lg font-semibold text-indigo-100'}}) }}
+				{{ form_widget(form.codepostal, {'attr': {'class': 'p-3 rounded-lg border-2 border-indigo-500 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-300 transition duration-200'}}) }}
+				{{ form_errors(form.codepostal) }}
+			</div>
+
+			<!-- Mot de passe -->
+			<div class="flex flex-col">
+				{{ form_label(form.password, null, {'attr': {'class': 'text-lg font-semibold text-indigo-100'}}) }}
+				{{ form_widget(form.password, {'attr': {'class': 'p-3 rounded-lg border-2 border-indigo-500 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-300 transition duration-200'}}) }}
+				{{ form_errors(form.password) }}
+			</div>
+
+			<!-- Bouton de soumission -->
+			<div class="text-center">
+				{{ form_widget(form.submit, {'attr': {'class': 'px-6 py-3 mt-6 bg-indigo-600 text-white font-semibold rounded-full shadow-lg hover:bg-indigo-500 focus:ring-4 focus:ring-indigo-200 transition duration-300'}}) }}
+			</div>
+		</div>
+		{{ form_end(form) }}
+	</div>
+{% endblock %}

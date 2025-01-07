@@ -1,0 +1,77 @@
+{% block title %}
+{% endblock %}
+
+{% block stylesheets %}
+<script src="https://cdn.tailwindcss.com"></script>
+{% endblock %}
+
+{% block body %}
+<section class="relative h-screen w-screen bg-black">
+
+  <!-- Logo placé en haut à gauche -->
+  <div class="absolute top-4 left-4 z-20">
+    <img src="{{ asset('/images/imagelogocolor.png') }}" alt="Logo" id="logo"
+         class="h-20 w-auto transition-all duration-300">
+  </div>
+
+  <!-- Arrière-plan dynamique centré, légèrement plus bas -->
+  <div class="absolute top-[15vh] left-1/2 -translate-x-1/2 h-[60vh] w-[75%] bg-cover bg-center z-0 transition-all duration-500 bg-slider"
+       style="background-size: contain; background-repeat: no-repeat;"></div>
+
+  <!-- Conteneur principal centré avec le texte et le bouton -->
+  <div class="relative z-10 flex flex-col justify-center items-center h-[80vh] w-[90%] mx-auto text-center bg-black bg-opacity-70 rounded-lg shadow-lg">
+    <h1 class="text-white text-4xl mb-2">Bienvenue sur le site de Joffrine Dehais</h1>
+    <p class="text-lg sm:text-base text-gray-300 mb-4">Parcourez nos produits en un clic.</p>
+    <a href="/home"
+       class="inline-block px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
+      Entrer dans le site
+    </a>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const sliderElement = document.querySelector('.bg-slider');
+  const logoElement = document.getElementById('logo');
+  let isGrayScale = false;
+
+  // Assurez-vous que `products` est bien transmis depuis le backend Twig
+  // On remplace dynamiquement les chemins incorrects avec une logique propre
+  const productImages = {{ products | map(p => asset(p.image | replace({'uploads/uploads/' : 'uploads/'}))) | json_encode | raw }};
+
+  let index = 0;
+
+  // Fonction pour obtenir une image aléatoire pour le slider
+  const defaultPlaceholder = '{{ asset("uploads/default-placeholder.jpg") }}';
+
+  function getRandomImage() {
+    if (productImages.length === 0) return defaultPlaceholder;
+    const randomIndex = Math.floor(Math.random() * productImages.length);
+    return productImages[randomIndex];
+  }
+
+  // Fonction pour changer l'image d'arrière-plan
+  function changeBackground() {
+    const randomImage = getRandomImage();
+    sliderElement.style.backgroundImage = `url('${randomImage}')`;
+  }
+
+  // Change l'image toutes les 5 secondes
+  setInterval(changeBackground, 5000);
+  changeBackground();
+
+  // Animation logo : passage couleur normale ↔ niveaux de gris toutes les 3 secondes
+  function toggleLogoColor() {
+    if (isGrayScale) {
+      logoElement.style.filter = 'none';
+    } else {
+      logoElement.style.filter = 'grayscale(100%)';
+    }
+    isGrayScale = !isGrayScale;
+  }
+
+  setInterval(toggleLogoColor, 3000);
+  toggleLogoColor();
+});
+</script>
+{% endblock %}

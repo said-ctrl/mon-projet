@@ -1,0 +1,53 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6 mt-12 text-white">
+    <h1 class="text-3xl font-bold text-orange-500 mb-6 text-center">Inscription</h1>
+
+    {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+    <form method="post" enctype="multipart/form-data" class="space-y-6 max-w-lg mx-auto">
+        {{ form_start(registrationForm) }}
+
+        <div class="form-group">
+            {{ form_row(registrationForm.nom, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border rounded-lg bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500'}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(registrationForm.prenom, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border rounded-lg bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500'}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(registrationForm.email, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border rounded-lg bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500'}}) }}
+        </div>
+
+        <div class="form-group">
+            <!-- Champ mot de passe -->
+            {{ form_row(registrationForm.plainPassword.first, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border rounded-lg bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500'}}) }}
+        </div>
+
+        <div class="form-group">
+            <!-- Champ confirmation mot de passe -->
+            {{ form_row(registrationForm.plainPassword.second, {'attr': {'class': 'mt-1 block w-full px-4 py-2 border rounded-lg bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500'}}) }}
+        </div>
+         {{ form_row(registrationForm.roles) }} {# Affiche le champ de sélection du rôle #}
+
+        <div class="form-group">
+            <button type="submit" class="w-full py-3 bg-orange-500 text-white rounded-lg font-semibold text-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50">
+                S'inscrire
+            </button>
+        </div>
+        
+        {{ form_end(registrationForm) }}
+    </form>
+</div>
+{% endblock %}

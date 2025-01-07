@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <section class="bg-gradient-to-r from-gray-50 to-gray-100 text-gray-900 py-12">
+        <div class="max-w-7xl mx-auto px-6">
+
+            {# Bouton pour les rôles d'artiste afin d'ajouter un produit #}
+            {% if is_granted('ROLE_ARTIST') %}
+                <div class="mt-10 text-center mb-8">
+                    <a href="{{ path('add_product') }}" class="inline-block px-8 py-3 text-lg font-semibold bg-teal-600 text-white rounded-full shadow-md transition-all hover:bg-teal-700">
+                        Ajouter un Produit
+                    </a>
+                </div>
+            {% endif %}
+
+            <div class="text-center mb-10">
+                <h1 class="text-4xl font-extrabold text-teal-600">Nos Produits</h1>
+                <p class="text-lg text-gray-500">Découvrez notre sélection de produits.</p>
+            </div>
+
+            <div class="space-y-6 mb-5 text-center">
+                <h2 class="text-2xl text-orange-500 font-semibold">Reproductions d'art</h2>
+                <p class="text-xl text-gray-800 mb-4">
+                    Commandez des reproductions d'art sur différents supports (toiles, t-shirts, mugs, etc.).
+                </p>
+                <a href="{{ path('reproduction') }}" class="px-8 py-3 text-lg font-semibold bg-orange-500 text-white rounded-full inline-block shadow-md hover:bg-orange-600 transition duration-300">
+                    Commander une reproduction
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+{% for product in products %}
+    <div class="bg-white rounded-lg shadow-xl border border-gray-300 relative flex flex-col justify-between h-full">
+        {# Vérifier si le produit a un slug valide avant de créer le lien #}
+        {% if product.slug is not empty %}
+            <a href="{{ path('product_details', {'slug': product.slug}) }}">
+        {% else %}
+            <div class="cursor-not-allowed opacity-50">
+        {% endif %}
+                <div class="relative w-full h-64 overflow-hidden">
+                    <img 
+                      src="{{ asset(product.image | replace({'uploads/uploads/' : 'uploads/'})) }}"
+                      class="w-full h-full object-cover transition-transform duration-300 transform hover:scale-110"
+                      alt="{{ product.title }}"
+                    >
+                </div>
+        {% if product.slug is not empty %}
+            </a>
+        {% else %}
+            </div>
+        {% endif %}
+
+        {% if product.reserved %}
+            <div class="absolute top-0 left-0 bg-red-500 text-white text-sm font-bold px-2 py-1 rounded-br-lg">
+                Réservé
+            </div>
+        {% endif %}
+
+        <div class="p-4 flex-1">
+            <h2 class="text-lg font-semibold text-teal-700">{{ product.title }}</h2>
+            <p class="text-sm text-gray-500 mt-2">{{ product.description }}</p>
+            <p class="text-lg font-bold text-teal-600 mt-4">{{ product.price }}€</p>
+            {% if product.reserved %}
+                <p class="text-red-500 mt-2 text-sm">Réservé jusqu'au {{ product.reservationDate|date('d/m/Y') }}</p>
+            {% endif %}
+        </div>
+
+        <div class="p-4 mb-4 space-y-2">
+            {% if product.reserved %}
+                <div class="text-center mt-2 text-sm text-gray-600">Ce produit est déjà réservé</div>
+            {% else %}
+                <a href="{{ path('reserve_product', {'id': product.id}) }}" class="inline-block w-full px-4 py-2 bg-teal-600 text-white font-semibold rounded-md shadow-md hover:bg-teal-700 transition duration-300 text-center">
+                    Réserver
+                </a>
+            {% endif %}
+
+            <a href="{{ path('add_to_cart', {'productId': product.id}) }}" class="inline-block w-full px-4 py-2 bg-orange-500 text-white font-semibold rounded-md shadow-md hover:bg-orange-600 transition duration-300 text-center">
+                Ajouter au Panier
+            </a>
+        </div>
+    </div>
+{% else %}
+    <p class="text-center text-lg text-gray-500">Aucun produit disponible pour le moment.</p>
+{% endfor %}
+
+            </div>
+        </div>
+    </section>
+{% endblock %}
+

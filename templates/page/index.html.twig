@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}À propos de Joffrine Dehais{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Animation pour l'apparition progressive des éléments */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Application de l'animation fadeIn */
+        .fade-in {
+            animation: fadeIn 2s ease-out;
+        }
+
+        /* Fixer la navbar au-dessus des autres éléments */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000; /* Assurer que la navbar reste au-dessus */
+        }
+    </style>
+{% endblock %}
+{% block content %}
+<section class="bg-white text-black font-serif leading-relaxed">
+    <!-- Section principale -->
+    <div class="max-w-7xl mx-auto px-6 py-12 mt-24">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-orange-500 mb-4 fade-in">Présentation de Joffrine Dehais</h1>
+            <p class="text-lg md:text-xl text-gray-800 fade-in">Artiste plasticienne et créatrice, alliant sensibilité, innovation et art contemporain.</p>
+        </div>
+
+        <!-- Section de présentation et réalisations marquantes -->
+        <div class="grid gap-12 md:grid-cols-2">
+            <div class="space-y-4 fade-in">
+                <p class="text-xl text-gray-800">
+                    Joffrine Dehais est une artiste plasticienne spécialisée dans l’utilisation des POSCA et du Chanvre. Ses œuvres uniques, allant des toiles aux bustes, sont empreintes d’émotion et d’une réflexion profonde sur la nature et l’art contemporain.
+                </p>
+                <p class="text-xl text-gray-800">
+                    Voyageuse passionnée, Joffrine s'inspire de ses expériences à travers l’Europe, le Maroc et le Canada, intégrant ces influences dans ses créations. Ses projets récents incluent des œuvres telles que <span class="font-semibold text-orange-500">The Holy Leaf - 7G</span> (2023), ainsi que des expositions comme <span class="font-semibold text-orange-500">MEMORIES OF US</span> (2020-2021).
+                </p>
+            </div>
+
+            <!-- Liste des réalisations marquantes -->
+            <div class="space-y-4 fade-in">
+                <h2 class="text-2xl text-orange-500 font-semibold">Quelques Réalisations</h2>
+                <ul class="space-y-4">
+                    <li class="text-xl text-gray-800"><strong>2023 :</strong> <span class="font-semibold text-orange-500">The Holy Leaf - 7G</span>, une œuvre explorant le dialogue entre nature et innovation.</li>
+                    <li class="text-xl text-gray-800"><strong>2022 :</strong> Projet <span class="font-semibold text-orange-500">May Dine France</span>, visant à promouvoir l’importation de produits français au Maroc.</li>
+                    <li class="text-xl text-gray-800"><strong>2021 :</strong> Exposition <span class="font-semibold text-orange-500">ARTLU</span>, Prix Révélation au Salon International Arbustes.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section Parcours académique et professionnel -->
+        <div class="mt-12 fade-in">
+            <h2 class="text-2xl text-orange-500 font-semibold mb-4">Parcours et Expertise</h2>
+            <p class="text-xl text-gray-800">
+                Diplômée d’un Master en Marketing et Stratégie Commerciale, Joffrine combine son expertise en communication et design avec sa pratique artistique. Elle a travaillé dans des rôles de direction, en particulier en tant que Présidente Directrice Générale de <span class="font-semibold text-teal-500">Mesnil Bien Être</span>, tout en développant des marques comme <span class="font-semibold text-teal-500">Pochon Vert</span> et <span class="font-semibold text-teal-500">May Dine France</span>.
+            </p>
+            <p class="text-xl text-gray-800">
+                Son parcours est marqué par des réalisations marquantes dans le domaine de la gestion d'équipe et de la stratégie marketing, notamment lors de son rôle de Responsable Affiliation chez <span class="font-semibold text-teal-500">Kang</span>.
+            </p>
+        </div>
+
+        <!-- Section de contact ou appel à l'action -->
+        <div class="mt-12 text-center fade-in">
+             <a href="{{ path('product_list') }}" class="px-8 py-3 text-lg font-semibold bg-orange-500 text-white rounded-full shadow-md transition-all hover:bg-orange-600 transform hover:scale-105 hover:shadow-lg">
+        Découvrez ses œuvres
+    </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

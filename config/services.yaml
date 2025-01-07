@@ -4,13 +4,16 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    uploads_directory: '%kernel.project_dir%/public/uploads'  # Définition du paramètre uploads_directory
+
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-
+     
+    # Ajoute explicitement CartService si nécessaire
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
@@ -19,6 +22,17 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+
+         
+    App\Service\ProductService:
+        arguments:
+            $uploadsDirectory: '%uploads_directory%'  # Injecte le paramètre uploads_directory
+
+    # Définition explicite de ton MailerService avec ses dépendances
+    App\Service\MailerService:
+        arguments:
+            $mailer: '@mailer.mailer'     # Injecte le service Mailer
+            $logger: '@logger'             # Injecte le service Logger
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

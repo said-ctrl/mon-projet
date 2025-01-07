@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ product.title }}
+	- Détails
+{% endblock %}
+
+
+{% block content %}
+	<section class="bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 py-12">
+		<div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-10">
+        <h1 class="text-4xl font-extrabold text-orange-500">{{ product.title }}</h1>
+        <p class="text-lg text-gray-600">Découvrez les détails de ce produit.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+        <!-- Image du produit -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-500">
+            <img src="{{ asset(product.image | replace({'uploads/' : ''})) }}" alt="{{ product.title }}" class="w-full h-96 object-cover object-center cursor-pointer transition-all duration-500 hover:opacity-80" onclick="openModal('{{ asset(product.image) }}')">
+        </div>
+
+        <!-- Détails du produit -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <p class="text-xl text-gray-600 mb-6">{{ product.description }}</p>
+            <p class="text-2xl text-teal-500 font-semibold mt-4">{{ product.price }}€</p>
+
+            <div class="mt-8 space-y-4">
+                <a href="{{ path('add_to_cart', {'productId': product.id}) }}" class="inline-block px-8 py-3 text-lg font-semibold bg-orange-500 text-white rounded-full shadow-md transition-all hover:bg-orange-600">
+                    Ajouter au Panier
+                </a>
+                
+                {% if product.reserved %}
+                    <!-- Si le produit est réservé, afficher la date de réservation -->
+                    <p class="text-red-500 text-lg">Réservé jusqu'au {{ product.reservationDate|date('d/m/Y H:i') }}</p>
+
+                    <!-- Afficher le temps restant avant l'expiration -->
+                    {% if remainingTime %}
+                        <p class="text-red-500 text-lg">{{ remainingTime }}</p>
+                    {% else %}
+                        <p class="text-red-500 text-lg">Réservation expirée</p>
+                    {% endif %}
+
+                    <!-- Si la réservation n'est pas expirée, afficher le bouton Annuler la Réservation -->
+                    {% if remainingTime and product.reservedBy == app.user %}
+                        <a href="{{ path('unreserve_product', {'id': product.id}) }}" class="inline-block px-8 py-3 text-lg font-semibold bg-red-500 text-white rounded-full shadow-md transition-all hover:bg-red-600">
+                            Annuler la Réservation
+                        </a>
+                    {% endif %}
+                {% else %}
+                    <!-- Si le produit n'est pas réservé, afficher le bouton Réserver -->
+                    <a href="{{ path('reserve_product', {'id': product.id}) }}" class="inline-block px-8 py-3 text-lg font-semibold bg-teal-500 text-white rounded-full shadow-md transition-all hover:bg-teal-600">
+                        Réserver
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+			<div class="mt-6">
+  <h2 class="text-lg font-semibold mb-2">Articles</h2>
+  {% for article in articles %}
+    <a href="{{ path('article_show', {'slug': article.slug}) }}">
+      <div class="border p-4 mb-3 bg-gray-100 rounded-md shadow-sm hover:bg-gray-200 transition">
+        <p>
+          <strong>{{ article.author.nom }}</strong> - {{ article.createdAt|date('Y-m-d H:i') }}
+        </p>
+        <p class="mt-2 text-gray-700">{{ article.content }}</p>
+      </div>
+    </a>
+  {% else %}
+    <p class="text-gray-500 text-center">Aucun article disponible pour le moment.</p>
+  {% endfor %}
+</div>
+
+
+			<!-- Retour à la liste des produits -->
+			<div class="text-center mt-12">
+				<a href="{{ path('product_list') }}" class="px-8 py-3 text-lg font-semibold bg-teal-600 text-white rounded-full shadow-md transition-all hover:bg-teal-700">
+					Retour à la liste des produits
+				</a>
+			</div>
+		</div>
+	</section>
+	<!-- Modal pour afficher l'image en grand -->
+	<div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden" onclick="closeModal(event)">
+		<div class="relative" onclick="event.stopPropagation()">
+			<!-- Empêche la fermeture en cliquant sur l'image -->
+			<!-- Icône de fermeture positionnée en haut à droite -->
+				<button onclick="closeModal()" class="absolute top-4 right-4 text-white text-3xl z-10"> X</button>
+			<!-- Conteneur flexible pour l'image -->
+			<div class="overflow-visible">
+				<img id="modalImage" src="" alt="Image produit" class="transition-transform duration-300 ease-in-out max-w-screen-lg max-h-screen">
+			</div>
+		</div>
+	</div>
+
+	<script>
+		let scale = 1;
+// Valeur de zoom par défaut
+
+// Ouvrir la modale avec l'image
+function openModal(imageUrl) {
+console.log("Ouverture modale avec l'URL :", imageUrl);
+const modalImage = document.getElementById('modalImage');
+document.getElementById('imageModal').classList.remove('hidden');
+modalImage.src = imageUrl;
+
+// Assurez-vous que l'image est bien chargée avant de permettre le zoom
+modalImage.onload = function () {
+
+modalImage.style.transform = `scale(${scale})`;
+};
+}
+
+// Fermer la modale et réinitialiser le zoom
+function closeModal(event) {
+if (event) {
+event.stopPropagation();
+}
+document.getElementById('imageModal').classList.add('hidden');
+const modalImage = document.getElementById('modalImage');
+modalImage.style.transform = `scale(1)`; // Réinitialisation du zoom
+scale = 1;
+}
+
+// Fonction pour le zoom avec la molette de la souris
+const modalImage = document.getElementById('modalImage');
+
+modalImage.addEventListener('wheel', (e) => {
+e.preventDefault();
+// Empêche le défilement de la page
+
+// Déterminer la direction du zoom
+if (e.deltaY > 0) {
+scale -= 0.1; // Dézoomer
+} else {
+scale += 0.1; // Zoomer
+}
+
+// Limiter le zoom entre 1 et 3
+scale = Math.max(1, Math.min(scale, 5));
+
+modalImage.style.transform = `scale(${scale})`;
+});
+
+// Réinitialisation du zoom sur la souris en dehors de l'image
+modalImage.addEventListener('mouseleave', () => {
+scale = 1;
+modalImage.style.transform = `scale(1)`;
+});
+	</script>
+{% endblock %}
