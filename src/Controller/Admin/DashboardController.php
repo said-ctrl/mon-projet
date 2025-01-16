@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Article;
 use App\Entity\Identifiant;
+use App\Entity\Order;
 use App\Entity\Product;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -48,6 +49,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Identifiants', 'fa fa-user', Identifiant::class)
             ->setController(IdentifiantCrudController::class); // Utilisation du contrôleur CRUD pour Identifiant
          yield MenuItem::linkToCrud('Product', 'fa fa-newspaper', Product::class);
+         yield MenuItem::linkToCrud('Order', 'fa fa-newspaper', Order::class);
+
          yield MenuItem::linkToUrl('Retour à l\'accueil', 'fa fa-home', $this->generateUrl('home'));
     }
 }

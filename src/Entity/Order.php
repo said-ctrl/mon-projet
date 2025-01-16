@@ -17,7 +17,7 @@ class Order
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
-    private ?identifiant $identifiant = null;
+    private ?Identifiant $identifiant = null;
 
     #[ORM\Column(length: 255)]
     private ?string $status = 'enregistrer';
@@ -43,6 +43,9 @@ class Order
     #[ORM\OneToMany(targetEntity: CartItem::class, mappedBy: 'panier')]
     private Collection $cartOrder;
 
+    #[ORM\Column]
+    private ?float $totalAmount = null;
+
     public function __construct()
     {
         $this->cartItems = new ArrayCollection();
@@ -54,12 +57,12 @@ class Order
         return $this->id;
     }
 
-    public function getIdentifiant(): ?identifiant
+    public function getIdentifiant(): ?Identifiant
     {
         return $this->identifiant;
     }
 
-    public function setIdentifiant(?identifiant $identifiant): static
+    public function setIdentifiant(?Identifiant $identifiant): static
     {
         $this->identifiant = $identifiant;
 
@@ -166,6 +169,18 @@ class Order
         if ($this->cartOrder->removeElement($cartOrder)) {
            
         }
+
+        return $this;
+    }
+
+    public function getTotalAmount(): ?float
+    {
+        return $this->totalAmount;
+    }
+
+    public function setTotalAmount(float $totalAmount): static
+    {
+        $this->totalAmount = $totalAmount;
 
         return $this;
     }

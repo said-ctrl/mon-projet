@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\CartItem;
-use App\Entity\Order;
 use App\Entity\Product;
 use App\Form\CheckoutType;
 use App\Service\CartService;
+use App\Service\checkoutServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,14 +18,17 @@ class CartController extends AbstractController
     private CartService $cartService;
     private EntityManagerInterface $entityManager;
 
-    public function __construct(CartService $cartService, EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        CartService $cartService,
+        EntityManagerInterface $entityManager,
+        readonly private checkoutServiceInterface $checkoutServiceInterface,
+    ) {
         $this->cartService = $cartService;
         $this->entityManager = $entityManager;
     }
 
     #[Route('/cart', name: 'app_cart')]
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $identifiant = $this->getUser();
         if (!$identifiant) {
@@ -34,10 +37,29 @@ class CartController extends AbstractController
 
         $cartItems = $this->cartService->getUserCart($identifiant);
 
+        $total = 0;
+        foreach ($cartItems as $cartItem) {
+            $product = $cartItem->getProduct();
+            $total += $product->getPrice() * $cartItem->getQuantity();
+        }
+
+        $form = $this->createForm(CheckoutType::class);
+
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            return $this->redirectToRoute('checkout_cart');
+        }
+
         return $this->render('cart/index.html.twig', [
             'cartItems' => $cartItems,
+            'total' => $total, // Passer le total à la vue
+            "form" => $form->createView(),
         ]);
     }
+
     #[Route('/cart/add/{productId}', name: 'add_to_cart')]
     public function addToCart(int $productId): Response
     {
@@ -72,6 +94,7 @@ class CartController extends AbstractController
 
         return $this->redirectToRoute('app_cart');
     }
+
     #[Route('/cart/remove/{cartItemId}', name: 'remove_from_cart')]
     public function removeFromCart(int $cartItemId): Response
     {
@@ -91,7 +114,7 @@ class CartController extends AbstractController
     }
 
     #[Route('/cart/checkout', name: 'checkout_cart')]
-    public function checkout(Request $request): Response
+    public function checkout(): Response
     {
         $user = $this->getUser();
         if (!$user) {
@@ -104,52 +127,23 @@ class CartController extends AbstractController
             return $this->redirectToRoute('app_cart');
         }
 
-        $order = new Order();
-        $order->setIdentifiant($user);
-        $order->setStatus('enregistrée');
-        $order->setCreatedAt(new \DateTimeImmutable());
+        $url = $this->checkoutServiceInterface->createCheckout($cartItems, $this->getUser());
 
-
-        $form = $this->createForm(CheckoutType::class, $order, [
-            'user' => $user,  // Passer l'utilisateur dans les options
-        ]);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Si le formulaire est soumis et valide
-            $this->entityManager->persist($order);
-
-            foreach ($cartItems as $item) {
-                $item->setCartorder($order);
-                $item->setStatus('enregistrée');
-                $this->entityManager->persist($item);
-            }
-
-            $this->entityManager->flush();
-
-            return $this->redirectToRoute('order_confirmation');
-        }
-        return $this->render('cart/checkout.html.twig', [
-            'form' => $form->createView(), // Passer le formulaire à la vue
-        ]);
+        return $this->redirect($url);
     }
-    #[Route('/order', name: 'order_index')]
-    public function orders(): Response
-    {
-        $user = $this->getUser();
-        if (!$user) {
-            return $this->redirectToRoute('app_login');
-        }
 
-        $orders = $this->entityManager->getRepository(Order::class)->findBy(['identifiant' => $user]);
 
-        return $this->render('order/index.html.twig', [
-            'orders' => $orders,
-        ]);
-    }
     #[Route('/order/confirmation', name: 'order_confirmation')]
     public function orderConfirmation(): Response
     {
         return $this->render('order/confirmation.html.twig');
+    }
+
+    #[Route('/order/cancel', name: 'order_cancel')]
+    public function orderCancel(): Response
+    {
+
+
+        return $this->render('order/cancel.html.twig');
     }
 }

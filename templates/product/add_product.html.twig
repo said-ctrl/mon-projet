@@ -3,35 +3,36 @@
 {% block title %}Ajouter un produit{% endblock %}
 
 {% block content %}
-    <section class="bg-gray-900 text-white font-serif leading-relaxed">
+  <section class="bg-gray-900 text-white font-serif leading-relaxed">
+    <div class="max-w-7xl mx-auto px-6 py-12 mt-24">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-orange-500 mb-4">Ajouter un nouveau produit</h1>
+        </div>
 
-        <div class="max-w-7xl mx-auto px-6 py-12 mt-24">
-            <div class="text-center mb-10">
-                <h1 class="text-4xl md:text-5xl font-extrabold text-orange-500 mb-4">Ajouter un nouveau produit</h1>
-            </div>
-
-            <div class="max-w-md mx-auto">
-                {{ form_start(form) }}
+        <div class="max-w-md mx-auto">
+            {{ form_start(form) }}
+                <div class="grid grid-cols-1 gap-6">
                     <div class="mb-6">
-                        {{ form_row(form.title, { 'attr': {'class': 'p-3 rounded bg-gray-800 text-white'} }) }}
+                        {{ form_row(form.title, { 'attr': {'class': 'p-3 rounded bg-gray-800 text-white w-full'} }) }}
                     </div>
                     <div class="mb-6">
-                        {{ form_row(form.description, { 'attr': {'class': 'p-3 rounded bg-gray-800 text-white'} }) }}
+                        {{ form_row(form.description, { 'attr': {'class': 'p-3 rounded bg-gray-800 text-white w-full'} }) }}
                     </div>
                     <div class="mb-6">
-                        {{ form_row(form.price, { 'attr': {'class': 'p-3 rounded bg-gray-800 text-white'} }) }}
+                        {{ form_row(form.price, { 'attr': {'class': 'p-3 rounded bg-gray-800 text-white w-full'} }) }}
                     </div>
                     <div class="mb-6">
-                        {{ form_row(form.image, { 'attr': {'class': 'p-3 rounded bg-gray-800 text-white'} }) }}
+                        {{ form_row(form.image, { 'attr': {'class': 'p-3 rounded bg-gray-800 text-white w-full'} }) }}
                     </div>
                     <div class="text-center">
                         <button type="submit" class="px-8 py-3 text-lg font-semibold bg-orange-500 text-white rounded-full shadow-md transition-all hover:bg-orange-600 transform hover:scale-105 hover:shadow-lg">
                             Ajouter le produit
                         </button>
                     </div>
-                {{ form_end(form) }}
-            </div>
+                </div>
+            {{ form_end(form) }}
         </div>
+    </div>
+</section>
 
-    </section>
 {% endblock %}

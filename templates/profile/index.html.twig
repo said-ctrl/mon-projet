@@ -50,19 +50,7 @@
         </div>
 
         {# Affichage des produits de l'utilisateur (si applicable) #}
-        <div class="mt-6">
-            <h2 class="text-2xl font-semibold text-teal-500">Mes Produits</h2>
-            <ul class="space-y-4">
-                {% for produit in user.cartItems %}
-                    <li class="bg-gray-700 p-4 rounded-lg shadow-md">
-                        <p>{{ produit.product.name }} - {{ produit.product.price }}€</p>
-                        {# <a href="{{ path('app_product_show', { 'id': produit.product.id }) }}" class="text-teal-300 hover:text-teal-500">Voir le produit</a> #}
-                    </li>
-                {% else %}
-                    <p class="text-gray-400">Vous n'avez ajouté aucun produit à votre panier.</p>
-                {% endfor %}
-            </ul>
-        </div>
+       
 
         {# Bouton de modification de profil avec un style moderne #}
         <div class="mt-6 text-center">

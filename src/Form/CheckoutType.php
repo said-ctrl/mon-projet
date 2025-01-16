@@ -17,23 +17,7 @@ class CheckoutType extends AbstractType
         $user = $options['user'];
 
         $builder
-            ->add('status')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-                'input' => 'datetime_immutable',
-            ])
             ->add('shippingAdress')
-            ->add('paymentMethod')
-            ->add('identifiant', EntityType::class, [
-                'class' => identifiant::class,
-                'choice_label' => 'nom',  // Afficher le nom d'utilisateur, par exemple
-                'query_builder' => function (EntityRepository $er)use ($user)  {
-                    // Récupérer l'identifiant de l'utilisateur actuellement connecté
-                    return $er->createQueryBuilder('i')
-                        ->where('i.id = :userId')  // Filtrer l'identifiant de l'utilisateur connecté
-                        ->setParameter('userId', $user->getId());
-                },
-            ])
         ;
     }
 
